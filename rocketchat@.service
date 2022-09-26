@@ -1,0 +1,21 @@
+   [Unit]
+Description=Rocket.Chat Server
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+StandardOutput=syslog
+SyslogIdentifier=RocketChat
+User=rocketchat
+Group=rocketchat
+Environment=MONGO_URL=mongodb://mangodb-1:27017/rocketchat?replicaSet=rs0
+Environment=MONGO_OPLOG_URL=mongodb://mangodb-1:27017/local?replicaSet=rs0
+Environment=ROOT_URL=https://rparihar_rocket_linux.com
+Environment=PORT=%I
+WorkingDirectory=/Rocket.Chat/rocket.chat
+ExecStart=/usr/local/bin/node /Rocket.Chat/rocket.chat/bundle/main.js
+
+[Install]
+    WantedBy=multi-user.target
