@@ -15,11 +15,10 @@ services:
       MONGO_URL: "${MONGO_URL:-\
         mongodb://${MONGODB_ADVERTISED_HOSTNAME:-mongodb}:${MONGODB_INITIAL_PRIMARY_PORT_NUMBER:-27017}/\
         ${MONGODB_DATABASE:-rocketchat}?replicaSet=${MONGODB_REPLICA_SET_NAME:-rs0}}"
-        MONGO_URL: "mongodb://rparihar:RikkuMani@1199@host1:27017,host2:27017,host3:27017/rocket.chat?replicaSet=<replicaSet>&ssl=true&authSource=admin"
       MONGO_OPLOG_URL: "${MONGO_OPLOG_URL:\
         -mongodb://${MONGODB_ADVERTISED_HOSTNAME:-mongodb}:${MONGODB_INITIAL_PRIMARY_PORT_NUMBER:-27017}/\
         local?replicaSet=${MONGODB_REPLICA_SET_NAME:-rs0}}"
-      ROOT_URL: ${ROOT_URL:-http://localhost:${HOST_PORT:-3000}}
+      ROOT_URL: ${ROOT_URL:-https://chat.inumio.com:${HOST_PORT:-3000}}
       PORT: ${PORT:-3000}
       DEPLOY_METHOD: docker
       DEPLOY_PLATFORM: ${DEPLOY_PLATFORM}
@@ -29,7 +28,10 @@ services:
       - ${PORT:-3000}
     ports:
       - "${BIND_IP:-0.0.0.0}:${HOST_PORT:-3000}:${PORT:-3000}"
-
+    extra_hosts:
+      - "rocket-1:10.250.250.13"
+      - "rocket-2:10.250.250.14"
+      - "rocket-3:10.250.250.17"
   mongodb:
     image: docker.io/bitnami/mongodb:${MONGODB_VERSION:-4.4}
     restart: on-failure
